@@ -1,0 +1,57 @@
+[
+    {
+        "name": "help",
+        "short": "prints this very message",
+        "usage": "help"
+    },
+    {
+        "name": "gateway",
+        "short": "set gateway connection details",
+        "usage": "gateway <gateway ip> <security code>"
+    },
+    {
+        "name": "server",
+        "short": "starts the tradfri server",
+        "usage": "server"
+    },
+    {
+        "name": "toggle",
+        "short": "toggles the light",
+        "usage": "toggle"
+    },
+    {
+        "name": "on",
+        "short": "turns on the light",
+        "usage": "on"
+    },
+    {
+        "name": "off",
+        "short": "turns off the light",
+        "usage": "off"
+    },
+    {
+        "name": "select",
+        "short": "selects the light, by number",
+        "usage": "select <light number>"
+    },
+    {
+        "name": "list",
+        "short": "lists lights with numbers",
+        "usage": "list"
+    },
+    {
+        "name": "flash",
+        "short": "flashes the light",
+        "usage": "flash [hex formatted color]"
+    },
+    {
+        "name": "color",
+        "short": "sets the light's color",
+        "usage": "color <hex formatted color>"
+    },
+    {
+        "name": "brightness",
+        "short": "sets the light's brightness",
+        "usage": "brightness <integer 0 - 100>"
+    }
+]

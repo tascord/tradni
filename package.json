@@ -1,0 +1,31 @@
+{
+  "name": "tradni",
+  "version": "1.1.1",
+  "description": "A NodeJs CLI Application &amp; Server allowing for controll of an IKEA Tradfri light.",
+  "main": "src/cli.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tascord/tradni.git"
+  },
+  "keywords": [
+    "ikea",
+    "tradfri",
+    "smart lights"
+  ],
+  "author": "Oscar Hill <admin@tascord.ai> (https://tascord.ai)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tascord/tradni/issues"
+  },
+  "homepage": "https://github.com/tascord/tradni#readme",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "lodash": "^4.17.15",
+    "node-tradfri-client": "^2.1.4",
+    "quick.db": "^7.0.0-b22",
+    "uuid": "^7.0.2"
+  },
+  "bin": {
+    "tradni": "./src/cli.js"
+  }
+}

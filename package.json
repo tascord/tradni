@@ -1,6 +1,6 @@
 {
   "name": "tradni",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A NodeJs CLI Application &amp; Server allowing for controll of an IKEA Tradfri light.",
   "main": "src/cli.js",
   "repository": {
@@ -21,6 +21,7 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "node-tradfri-client": "^2.1.4",
     "quick.db": "^7.0.0-b22",
     "uuid": "^7.0.2"

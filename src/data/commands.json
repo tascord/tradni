@@ -10,9 +10,14 @@
         "usage": "gateway <gateway ip> <security code>"
     },
     {
+        "name": "log",
+        "short": "displays the current server log file",
+        "usage": "log"
+    },
+    {
         "name": "server",
         "short": "starts the tradfri server",
-        "usage": "server"
+        "usage": "server [force]"
     },
     {
         "name": "toggle",

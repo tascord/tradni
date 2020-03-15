@@ -15,6 +15,9 @@ const logger = require('./helpers/logger');
 const extras = require('./helpers/extras');
 const color = require('./helpers/color');
 
+/** Set LogFile Location **/
+logger.logData('./data/log.log');
+
 /** Running Commands **/
 if(args.length == 0) args[0] = 'help';
 
@@ -112,11 +115,11 @@ switch(command) {
     case "flash":
         if(!connected || !db.has('lights')) return logger.error('The tradni server isn\'t running, or hasn\'t found any lights.');
         
-        if(!args[0]) args[1] = 'ff006a';
-        if(args[0][0] != '#') args[1] = `#${args[0]}`;
+        if(!args[0]) args[0] = 'ff006a';
+        if(args[0][0] != '#') args[0] = `#${args[0]}`;
 
-        db.set('pulse', args[1]);
-        logger.log('Toggled active light.');
+        db.set('pulse', args[0]);
+        logger.log('Flashed active light.');
 
     break;
     
@@ -143,10 +146,15 @@ switch(command) {
     break;
 
     case "server":
+        if(db.has('connection') && args[0] != 'force') return logger.error('There appears to already be a server running, or a server incorrecly closed.\n    If you\'re sure a server isn\'t running, use \'tradni server force\'')
         logger.log("Starting tradfri server..\n");
         require('./server').run();
     break;
-    
+
+    case "log":
+        logger.log("Current logfile: \n" + logger.logFile());
+    break;
+
     default:
         logger.error(`No command linked to '${extras.sentenceCase(command)}'.\n    Use 'tradni help' for help.`);
     break;
@@ -163,11 +171,11 @@ function cbexec(command) {
               const split = stdOut.split('\n');
               resolve(JSON.parse(split[3] || split[0]));
             } catch (errResponse) {
-              console.error(`An invalid response was sent back by the gateway.\n    Error stack is as followed:\n    ${errResponse.stack}`);
+              logger.error(`An invalid response was sent back by the gateway.\n    Error stack is as followed:\n    ${errResponse.stack}`);
               process.exit(1);
             }
           } else {
-            console.error(`Couldn't reach gateway.\n   Command run: '${command}'`);
+            logger.error(`Couldn't reach gateway.\n   Command run: '${command}'`);
             process.exit(1);
           }
       });

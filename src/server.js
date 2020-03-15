@@ -18,22 +18,37 @@ if(connection == null) {
 
 exports.run = () => {
 
+    var failedConnections = 0;
+
+    logger.logData('./data/log.log');
+    logger.newLog();
+
+    const tradfri = new ntc.TradfriClient(connection.ip);
+
+    async function init() {
+
+        db.set('connection', true);
+
+        try {
+            await tradfri.connect(connection.identity, connection.psk);
+        } catch (e) {
+            logger.error('Error whilst connecting to gateway: \n' + e.stack);
+
+            failedConnections++;
+            if(failedConnections > 10) { logger.error('Exceeded maximum failed connection attemts. Shutting down.'); db.delete('connection'); process.exit(1); }
+            else { logger.warn('Retrying connection..'); init(); }
+        }
+
+        server();
+
+    }
+
     const lights = {};
     var pre = JSON.stringify(db.all());
     var light= db.has('light') ? db.get('light') : null;
     var activeLight = {};
 
-    (async () => {
-
-        db.set('connection', true);
-
-        const tradfri = new ntc.TradfriClient(connection.ip);
-        try {
-            await tradfri.connect(connection.identity, connection.psk);
-        } catch (e) {
-            logger.error('Error whilst connecting to gateway: \n' + e.stack);
-            process.exit(1);
-        }
+    async function server() {
 
         logger.clear();
         logger.log(`Connected to gateway (${connection.ip}).`);
@@ -62,13 +77,14 @@ exports.run = () => {
             }
         }
 
-    })();
+    }
 
     function lookForChanges() {
 
         if(pre == JSON.stringify(db.all())) return;
 
-        activeLight = lights[light].lightList[0];
+        if(lights[light]) activeLight = lights[light].lightList[0];
+        else {logger.warn(`Light ${light} dosen't exist. Skipping..`); return pre = db.all(); }
 
         if(db.has('light')) {
             
@@ -168,7 +184,9 @@ exports.run = () => {
 
     process.on('SIGTERM', () => {
         db.delete('connection');
-    })
+    });
+
+    init();
 
 };
 
